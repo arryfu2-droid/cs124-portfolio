@@ -1,185 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS Portfolio</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #001122;
-            color: #ffffff;
-            line-height: 1.6;
-        }
-        header {
-            background-color: #001122;
-            padding: 2rem;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-        .tagline {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            color: #cccccc;
-        }
-        section {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h2 {
-            border-bottom: 2px solid #ffffff;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .about, .skills, .projects, .contact {
-            margin-bottom: 2rem;
-        }
-        .skills ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .skills li {
-            background-color: #ffffff;
-            color: #001122;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .projects {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .project {
-            background-color: #ffffff;
-            color: #001122;
-            padding: 1rem;
-            border-radius: 5px;
-            flex: 1 1 300px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .project h3 {
-            margin-top: 0;
-        }
-        .contact {
-            text-align: center;
-        }
-        .contact a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 1rem;
-        }
-        .contact a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .tagline {
-                font-size: 1rem;
-            }
-            section {
-                padding: 1rem;
-            }
-            .skills ul {
-                flex-direction: column;
-            }
-            .projects {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arry Fu — CS + Bioengineering</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #03080f;
+      --bg2: #060f1a;
+      --accent: #00c8ff;
+      --accent2: #7fffd4;
+      --text: #e8f4f8;
+      --muted: #7a9ab0;
+      --border: rgba(0,200,255,0.15);
+      --card: rgba(0,200,255,0.04);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(3,8,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: rgba(0,200,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 2.5rem;
+      line-height: 1.15;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .skill-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent2);
+      background: rgba(127,255,212,0.04);
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent2);
+      background: rgba(127,255,212,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ── PROJECT ── */
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,200,255,0.4);
+      transform: translateY(-4px);
+    }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .project-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(0,200,255,0.1);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: var(--accent); }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3.5rem;
+      background: var(--card);
+      text-align: center;
+    }
+
+    .contact-inner p {
+      color: var(--muted);
+      max-width: 480px;
+      margin: 1rem auto 2.5rem;
+      font-weight: 300;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      #hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-inner { padding: 2rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <header id="hero">
-        <h1>Your Name</h1>
-        <p class="tagline">Your Tagline Here</p>
-    </header>
 
-    <section id="about" class="about">
-        <h2>About Me</h2>
-        <p>Hi, I'm a computer science student passionate about technology and innovation. I enjoy solving complex problems and building efficient solutions. With a strong foundation in programming and a keen interest in emerging technologies, I'm always eager to learn and take on new challenges.</p>
-    </section>
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">arry_fu.html</span>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#research">research</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
 
-    <section id="skills" class="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Python</li>
-            <li>JavaScript</li>
-            <li>Java</li>
-            <li>C++</li>
-            <li>HTML/CSS</li>
-            <li>SQL</li>
-            <li>Git</li>
-            <li>React</li>
-        </ul>
-    </section>
+  <!-- HERO -->
+  <div id="hero">
+    <p class="hero-label">// portfolio</p>
+    <h1>Arry <em>Fu</em></h1>
+    <p class="hero-sub">CS + Bioengineering student at UIUC — building at the intersection of machine learning and medicine.</p>
+    <div class="hero-cta">
+      <a href="#research" class="btn btn-primary">View Research</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
 
-    <section id="projects" class="projects">
-        <h2>Project Showcase</h2>
-        <div class="project">
-            <h3>Project 1: Web Application</h3>
-            <p>A full-stack web application built with React and Node.js. Features user authentication, real-time updates, and responsive design.</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">// 01 — about</p>
+    <h2>Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm <strong>Arry Fu</strong>, a Bioengineering student at the <strong>University of Illinois Urbana-Champaign</strong> (Grainger College of Engineering), expected to graduate May 2029.</p>
+        <p>My work lives at the crossroads of <strong>machine learning and healthcare</strong>. I'm passionate about using AI to solve real clinical problems — from optimizing insulin dosing with LLMs to designing sustainable energy systems.</p>
+        <p>Outside of research, I've spent years as a tutor and mentor, helping <strong>300+ students</strong> build confidence in math and science. I believe teaching is one of the best ways to deepen your own understanding.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-number">300+</div>
+          <div class="stat-label">students tutored in math & science</div>
         </div>
-        <div class="project">
-            <h3>Project 2: Data Analysis Tool</h3>
-            <p>A Python-based tool for data visualization and analysis. Uses libraries like Pandas, Matplotlib, and Scikit-learn to process and visualize large datasets.</p>
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">audience reached at research presentation</div>
         </div>
-        <div class="project">
-            <h3>Project 3: Mobile App</h3>
-            <p>A cross-platform mobile application developed with React Native. Includes features like geolocation, push notifications, and offline support.</p>
+        <div class="stat-card">
+          <div class="stat-number">2029</div>
+          <div class="stat-label">expected graduation — UIUC Bioengineering</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="contact" class="contact">
-        <h2>Contact</h2>
-        <p>Get in touch with me!</p>
-        <a href="mailto:your.email@example.com">Email</a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
-        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-    </section>
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">// 02 — skills</p>
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Java</span>
+      <span class="skill-tag">C</span>
+      <span class="skill-tag">MATLAB</span>
+      <span class="skill-tag">LaTeX</span>
+      <span class="skill-tag">Django</span>
+      <span class="skill-tag">Web Development</span>
+      <span class="skill-tag">Excel</span>
+      <span class="skill-tag">LabVIEW</span>
+      <span class="skill-tag">LLM Fine-Tuning</span>
+      <span class="skill-tag">Machine Learning</span>
+      <span class="skill-tag">Git</span>
+    </div>
+  </section>
 
-    <script>
-        // Smooth scrolling for navigation (if needed in future)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+  <!-- RESEARCH / PROJECT -->
+  <section id="research">
+    <p class="section-label">// 03 — research & projects</p>
+    <h2>Featured Work</h2>
 
-        // Simple animation on scroll
-        const observerOptions = {
-            threshold: 0.1
-        };
+    <div class="project-card" style="margin-bottom: 2rem;">
+      <div class="project-num">PROJECT 01</div>
+      <h3>LLMs in Diabetic Treatments (L4DT)</h3>
+      <p>Developed the L4DT model using chain-of-thought reasoning to optimize insulin dosage for diabetic patients. Fine-tuned Llama 3 (8B parameters), achieving higher accuracy than GPT-3.5 and traditional neural networks. Research was published in conference Proceedings (Page 359) and presented to academic peers.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Llama 3</span>
+        <span class="project-tag">LLM Fine-Tuning</span>
+        <span class="project-tag">Chain-of-Thought</span>
+        <span class="project-tag">Healthcare AI</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/arryfu2-droid" class="project-link" target="_blank">→ GitHub</a>
+      </div>
+    </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+    <div class="project-card">
+      <div class="project-num">PROJECT 02</div>
+      <h3>Maglev Power System for Automobiles</h3>
+      <p>Designed a car-scale model inspired by maglev train technology to boost fuel efficiency and reduce emissions. Researched superconductors and machine learning applications for energy optimization. Presented findings to an audience of 500+, sparking discussion around sustainable energy solutions.</p>
+      <div class="project-tags">
+        <span class="project-tag">MATLAB</span>
+        <span class="project-tag">Machine Learning</span>
+        <span class="project-tag">Superconductors</span>
+        <span class="project-tag">Sustainable Energy</span>
+      </div>
+    </div>
+  </section>
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.5s, transform 0.5s';
-            observer.observe(section);
-        });
-    </script>
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">// 04 — contact</p>
+    <div class="contact-inner">
+      <h2>Let's Connect</h2>
+      <p>Whether it's research collaboration, questions about my work, or just saying hello — my inbox is open.</p>
+      <a href="mailto:arryfu20061203@gmail.com" class="btn btn-primary">arryfu20061203@gmail.com</a>
+      <div class="contact-links">
+        <a href="https://github.com/arryfu2-droid" class="contact-link" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/arry-fu-199370383/" class="contact-link" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Arry Fu — Built with HTML, CSS & JS</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(s => observer.observe(s));
+  </script>
 </body>
 </html>
