@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Portfolio</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #001122;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #001122;
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: #cccccc;
+        }
+        section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            border-bottom: 2px solid #ffffff;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .about, .skills, .projects, .contact {
+            margin-bottom: 2rem;
+        }
+        .skills ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .skills li {
+            background-color: #ffffff;
+            color: #001122;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .project {
+            background-color: #ffffff;
+            color: #001122;
+            padding: 1rem;
+            border-radius: 5px;
+            flex: 1 1 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .project h3 {
+            margin-top: 0;
+        }
+        .contact {
+            text-align: center;
+        }
+        .contact a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            section {
+                padding: 1rem;
+            }
+            .skills ul {
+                flex-direction: column;
+            }
+            .projects {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="hero">
+        <h1>Your Name</h1>
+        <p class="tagline">Your Tagline Here</p>
+    </header>
+
+    <section id="about" class="about">
+        <h2>About Me</h2>
+        <p>Hi, I'm a computer science student passionate about technology and innovation. I enjoy solving complex problems and building efficient solutions. With a strong foundation in programming and a keen interest in emerging technologies, I'm always eager to learn and take on new challenges.</p>
+    </section>
+
+    <section id="skills" class="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>Java</li>
+            <li>C++</li>
+            <li>HTML/CSS</li>
+            <li>SQL</li>
+            <li>Git</li>
+            <li>React</li>
+        </ul>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2>Project Showcase</h2>
+        <div class="project">
+            <h3>Project 1: Web Application</h3>
+            <p>A full-stack web application built with React and Node.js. Features user authentication, real-time updates, and responsive design.</p>
+        </div>
+        <div class="project">
+            <h3>Project 2: Data Analysis Tool</h3>
+            <p>A Python-based tool for data visualization and analysis. Uses libraries like Pandas, Matplotlib, and Scikit-learn to process and visualize large datasets.</p>
+        </div>
+        <div class="project">
+            <h3>Project 3: Mobile App</h3>
+            <p>A cross-platform mobile application developed with React Native. Includes features like geolocation, push notifications, and offline support.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <p>Get in touch with me!</p>
+        <a href="mailto:your.email@example.com">Email</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation (if needed in future)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s, transform 0.5s';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
